@@ -1,0 +1,44 @@
+{% load static %}
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <title>Cat Name</title>
+</head>
+<body>
+    {% if happy_scale <= 30 %}
+        <img src="{% static 'img/unhhappy_cat.jpg' %}" alt="unhappy cat" style="width: 200px" height="auto">
+    {% elif happy_scale <= 50 %}
+        <img src="{% static 'img/cat.jpg' %}" alt="neutral cat" style="width: 200px" height="auto">
+    {% else %}
+        <img src="{% static 'img/happy_cat.jpg' %}" alt="happy cat" style="width: 200px" height="auto">
+    {% endif %}
+
+    <h1>Кот - {{ name }}</h1>
+    <p>Возраст - {{ age }} год</p>
+    <p>Уровень счастья - {{ happy_scale }}</p>
+    <p>Уровень сытости - {{ satiety }}</p>
+
+    <form method="post" action="/cat/">
+        {% csrf_token %}
+        <input type="hidden" name="name" value="{{ name }}">
+        <input type="hidden" name="age" value="{{ age }}">
+        <input type="hidden" name="satiety" value="{{ satiety }}">
+        <input type="hidden" name="happy_scale" value="{{ happy_scale }}">
+
+        <label for="action">Выберите действие:</label>
+        <select name="action" id="action">
+            <option value="feed">Покормить</option>
+            <option value="play">Поиграть</option>
+            <option value="sleep">Уложить спать</option>
+        </select>
+        <br/><br/>
+        <input type="submit" value="Выполнить действие">
+    </form>
+</body>
+</html>
